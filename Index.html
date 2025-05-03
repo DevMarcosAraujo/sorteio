@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de Sorteio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Login</h1>
+    <input type="email" id="email" placeholder="Seu email">
+    <input type="password" id="password" placeholder="Sua senha">
+    <button onclick="login()">Entrar</button>
+    <p id="login-error"></p>
+    
+    <div id="sorteio-area" style="display:none;">
+      <h2>Sortear Número</h2>
+      <button onclick="sortearNumero()">Sortear</button>
+      <h3 id="resultado"></h3>
+      
+      <h4>Ganhadores:</h4>
+      <ul id="ganhadores"></ul>
+    </div>
+  </div>
+
+  <footer>
+    Desenvolvido por <a href="https://wa.me/5564993121829" target="_blank">Marcos Araújo</a>
+  </footer>
+
+  <!-- Firebase SDK + script.js -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
