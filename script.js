@@ -181,7 +181,7 @@ function sortearNumero() {
     { numero: 160, nome: "Luana de Sá", telefone: "18988255144"},
     { numero: 161, nome: "Luana de Sá", telefone: "18988255144"},
     { numero: 164, nome: "Fabio Campos", telefone: "67998500011"},
-    { numero: 165, nome: "Fabio Jubior Campo", telefone: "67992540900"},
+    { numero: 165, nome: "Fabio Jubior Campo", telefone: "67992540900"}, 
     { numero: 251, nome: "Vanessa Barros", telefone: "73999984206" },
     { numero: 252, nome: "Vanessa Barros", telefone: "73999984206" },
     { numero: 253, nome: "Vanessa Barros", telefone: "73999984206" },
