@@ -108,3 +108,21 @@ footer a:hover {
   font-size: 0.9em;
   color: #aaa;
 }
+.ganhadores-publico {
+  background: #1a1a1a;
+  border: 2px solid #444;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.ganhadores-publico h2 {
+  color: gold;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#ganhadoresPublico li {
+  margin: 8px 0;
+  font-weight: bold;
+  color: #eee;
+}

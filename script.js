@@ -110,3 +110,20 @@ function carregarGanhadores() {
     });
   });
 }
+
+// Exibe ganhadores para o público (fora do login)
+function carregarGanhadoresPublicos() {
+  const lista = document.getElementById("ganhadoresPublico");
+  if (!lista) return;
+
+  onValue(ref(db, "ganhadores"), snapshot => {
+    lista.innerHTML = "";
+    snapshot.forEach(doc => {
+      const g = doc.val();
+      const li = document.createElement("li");
+      li.innerHTML = `🎉 <strong>${g.numero} – ${g.nome}</strong> (${g.cambista})`;
+      lista.appendChild(li);
+    });
+  });
+}
+carregarGanhadoresPublicos(); // chama automaticamente ao carregar a página

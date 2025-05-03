@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <!-- Lista de Ganhadores (visível ao público) -->
+  <div class="container ganhadores-publico">
+    <h2>Ganhadores Recentes</h2>
+    <ul id="ganhadoresPublico"></ul>
+  </div>
+
   <!-- Tela de Login -->
   <div class="container login visible" id="login">
     <h2>Login do Administrador</h2>
@@ -17,25 +23,24 @@
     <p id="login-error" class="erro"></p>
   </div>
 
-  <!-- Tela de Sorteio -->
+  <!-- Tela de Sorteio (apenas admin) -->
   <div class="container sorteio" id="sorteio">
     <h1>Sorteio de Números</h1>
     <button onclick="iniciarSorteio()">Iniciar Sorteio</button>
     <h2 id="contador"></h2>
     <div id="resultado"></div>
     <div class="ganhadores-salvos">
-      <h3>Ganhadores Anteriores</h3>
+      <h3>Ganhadores Salvos</h3>
       <ul id="listaGanhadores"></ul>
     </div>
   </div>
 
   <!-- Rodapé -->
   <footer>
-    Desenvolvido por Marcos Araújo – 
+    Desenvolvido por Marcos Araújo –
     <a href="https://wa.me/5564993121829" target="_blank">(64) 99312-1829</a>
   </footer>
 
-  <!-- Script principal -->
   <script type="module" src="script.js"></script>
 </body>
 </html>
