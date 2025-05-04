@@ -253,6 +253,8 @@ function sortearNumero() {
     { numero: 330, nome: "Ademir Cesar Mattoso", telefone: "67996171973" },
     { numero: 332, nome: "Marcos Ponta Porã", telefone: "67999941428" },
     { numero: 401, nome: "Sérgio", telefone: "67991374933"},
+    { numero: 402, nomr: "Alvina Silva", telefone: "67991439509"},
+    { numero: 412, nome: "Elci Lopes da Silva", telefone: "67991299316"},
     { numero: 451, nome: "Maciel", telefone: "67981017944" },
     { numero: 452, nome: "Suely F. Oliveira", telefone: "67999001641" },
     { numero: 453, nome: "Higor F. Oliveira", telefone: "67999001641" },
