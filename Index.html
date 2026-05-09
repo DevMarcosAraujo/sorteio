@@ -720,7 +720,7 @@
       }
 
       const lista = Object.values(data).sort((a, b) => {
-        if (a.timestamp && b.timestamp) return a.timestamp - b.timestamp;
+        if (a.data && b.data) return new Date(a.data) - new Date(b.data);
         return 0;
       });
 
