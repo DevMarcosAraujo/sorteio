@@ -2,44 +2,752 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerador de Sorteio</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorteio Santa Dulce dos Pobres – Aniversário</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #FFD700;
+      --gold-light: #FFE55C;
+      --gold-dark: #B8860B;
+      --cyan: #00ffcc;
+      --bg: #0a0a0a;
+      --bg2: #111;
+      --bg3: #1a1a1a;
+      --bg4: #222;
+      --text: #fff;
+      --text-muted: #aaa;
+      --green: #25D366;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 32px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.12);
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .nav-btn {
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 215, 0, 0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0, 255, 204, 0.05) 0%, transparent 60%),
+        var(--bg);
+      z-index: 0;
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: twinkle var(--dur, 3s) ease-in-out infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 100px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      background: rgba(255, 215, 0, 0.08);
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title .highlight {
+      display: block;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+      background-size: 200% 100%;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% center; }
+      100% { background-position: -200% center; }
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 14px 32px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255, 215, 0, 0.45);
+    }
+
+    .btn-outline {
+      padding: 14px 32px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      animation: bounce 2s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 80px 24px;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-label {
+      display: inline-block;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 12px auto 0;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── STATS ── */
+    #stats {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255, 215, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+      padding: 56px 24px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      padding: 32px 24px;
+      text-align: center;
+      background: var(--bg3);
+      position: relative;
+    }
+
+    .stat-card:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+    .stat-card:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    /* ── COMO FUNCIONA ── */
+    #como-funciona { background: var(--bg); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .step-card {
+      background: var(--bg3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .step-card:hover {
+      border-color: rgba(255, 215, 0, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .step-num {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: rgba(255, 215, 0, 0.12);
+      line-height: 1;
+      margin-bottom: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .step-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+
+    .step-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .step-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── GANHADORES ── */
+    #ganhadores { background: var(--bg2); }
+
+    .winners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .winner-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg3);
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: var(--radius);
+      padding: 20px;
+      animation: fadeInUp 0.4s ease both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .winner-medal {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #000;
+      flex-shrink: 0;
+    }
+
+    .winner-info { flex: 1; min-width: 0; }
+
+    .winner-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .winner-number {
+      font-size: 0.82rem;
+      color: var(--gold);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    .winner-pos {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .sem-ganhadores {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      background: var(--bg3);
+      border-radius: var(--radius);
+      border: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .loading-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .loading-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin: 0 3px;
+      animation: loadpulse 1.2s ease-in-out infinite;
+    }
+
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes loadpulse {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.3; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── CTA ── */
+    #cta {
+      background: var(--bg);
+      text-align: center;
+      padding: 96px 24px;
+    }
+
+    .cta-inner {
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .cta-inner h2 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .cta-inner p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 36px;
+      border-radius: var(--radius);
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.45);
+    }
+
+    .btn-whatsapp svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 28px 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 14px 20px; }
+      .nav-logo { font-size: 0.95rem; }
+      .stat-card:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+      .stat-card:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+      .stats-grid { grid-template-columns: 1fr; gap: 1px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Lista de Ganhadores (visível ao público) -->
-  <div class="container ganhadores-publico">
-    <h2>Sorteio Santa Dulce dos Pobres aniversario</h2>
-    <ul id="ganhadoresPublico"></ul>
-  </div>
-
-  <!-- Tela de Login -->
-  <div class="container login visible" id="login">
-    <h2>Login do Administrador</h2>
-    <input type="email" id="email" placeholder="E-mail">
-    <input type="password" id="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
-    <p id="login-error" class="erro"></p>
-  </div>
-
-  <!-- Tela de Sorteio (apenas admin) -->
-  <div class="container sorteio" id="sorteio">
-    <h1>Sorteio de Números</h1>
-    <button onclick="iniciarSorteio()">Iniciar Sorteio</button>
-    <h2 id="contador"></h2>
-    <div id="resultado"></div>
-    <div class="ganhadores-salvos">
-      <h3>Ganhadores Salvos</h3>
-      <ul id="listaGanhadores"></ul>
+  <!-- ── NAVEGAÇÃO ── -->
+  <nav>
+    <div class="nav-logo">
+      Sorteio <span>Santa Dulce</span>
     </div>
-  </div>
+    <a href="entrar.html" class="nav-btn">Área Admin</a>
+  </nav>
 
-  <!-- Rodapé -->
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="stars" id="stars"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">Aniversário Especial</div>
+
+      <h1 class="hero-title">
+        Sorteio
+        <span class="highlight">Santa Dulce</span>
+        dos Pobres
+      </h1>
+
+      <p class="hero-sub">
+        Um sorteio especial para celebrar nossa missão de amor e solidariedade.
+        Acompanhe os resultados em tempo real.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#ganhadores" class="btn-primary">Ver Ganhadores</a>
+        <a href="#como-funciona" class="btn-outline">Como Funciona</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">Rolar</div>
+  </section>
+
+  <!-- ── STATS ── -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">500</div>
+        <div class="stat-label">Números Totais</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statParticipantes">–</div>
+        <div class="stat-label">Participantes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statGanhadores">–</div>
+        <div class="stat-label">Ganhadores</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── COMO FUNCIONA ── -->
+  <section id="como-funciona">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Processo</span>
+        <h2 class="section-title">Como Funciona</h2>
+        <p class="section-desc">Entenda as etapas do nosso sorteio especial de aniversário</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <div class="step-icon">&#127914;</div>
+          <h3>Adquira seu Número</h3>
+          <p>Compre um ou mais números para aumentar suas chances de ganhar no sorteio.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <div class="step-icon">&#9200;</div>
+          <h3>Aguarde o Evento</h3>
+          <p>No dia do evento, os números são sorteados ao vivo na presença de todos.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <div class="step-icon">&#127942;</div>
+          <h3>Confira o Resultado</h3>
+          <p>Os ganhadores aparecem nesta página em tempo real assim que são sorteados.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GANHADORES ── -->
+  <section id="ganhadores">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-label">Resultado</span>
+        <h2 class="section-title">Ganhadores</h2>
+        <p class="section-desc">Confira abaixo os contemplados do sorteio</p>
+      </div>
+
+      <div class="winners-grid" id="winnersGrid">
+        <div class="loading-msg">
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+          <span class="loading-dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section id="cta">
+    <div class="cta-inner">
+      <h2>Quer Participar?</h2>
+      <p>Entre em contato para adquirir seu número e concorrer aos prêmios do nosso sorteio de aniversário.</p>
+      <a href="https://wa.me/5564993121829" target="_blank" class="btn-whatsapp">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Falar no WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <!-- ── RODAPÉ ── -->
   <footer>
-    Desenvolvido por Marcos Araújo – <a href="https://wa.me/5564993121829" target="_blank">(64) 99312-1829</a>
+    <p>Desenvolvido por Marcos Araújo &nbsp;|&nbsp; <a href="https://wa.me/5564993121829" target="_blank">(64) 99312-1829</a></p>
   </footer>
 
-  <script type="module" src="script.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD53Q80biaZ_cYKRYcFi4iObGNAHEtcctc",
+      authDomain: "sorteio-app-ce9ef.firebaseapp.com",
+      projectId: "sorteio-app-ce9ef",
+      storageBucket: "sorteio-app-ce9ef.appspot.com",
+      messagingSenderId: "955968484049",
+      appId: "1:955968484049:web:3a927bde6732f26f448db0",
+      databaseURL: "https://sorteio-app-ce9ef-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    document.getElementById("statParticipantes").textContent = "450+";
+
+    onValue(ref(db, "ganhadores"), (snapshot) => {
+      const grid = document.getElementById("winnersGrid");
+      const statEl = document.getElementById("statGanhadores");
+      const data = snapshot.val();
+
+      if (!data) {
+        statEl.textContent = "0";
+        grid.innerHTML = '<p class="sem-ganhadores">Nenhum ganhador sorteado ainda. Fique ligado!</p>';
+        return;
+      }
+
+      const lista = Object.values(data).sort((a, b) => {
+        if (a.timestamp && b.timestamp) return a.timestamp - b.timestamp;
+        return 0;
+      });
+
+      statEl.textContent = lista.length;
+
+      grid.innerHTML = lista.map((g, i) => `
+        <div class="winner-card" style="animation-delay:${i * 0.06}s">
+          <div class="winner-medal">${i + 1}</div>
+          <div class="winner-info">
+            <div class="winner-name">${g.nome}</div>
+            <div class="winner-number">Número ${g.numero}</div>
+          </div>
+          <div class="winner-pos">${i + 1}º lugar</div>
+        </div>
+      `).join("");
+    });
+
+    const starsEl = document.getElementById("stars");
+    for (let i = 0; i < 60; i++) {
+      const s = document.createElement("div");
+      s.className = "star";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.top = Math.random() * 100 + "%";
+      s.style.setProperty("--dur", (2 + Math.random() * 4) + "s");
+      s.style.setProperty("--delay", (Math.random() * 4) + "s");
+      starsEl.appendChild(s);
+    }
+  </script>
 </body>
 </html>
