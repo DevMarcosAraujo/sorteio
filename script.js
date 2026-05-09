@@ -306,10 +306,6 @@ function sortearNumero() {
     { numero: 499, nome: "Fernando Ribeiro", telefone: "67999001651" },
     { numero: 500, nome: "Fernando Ribeiro", telefone: "67999001651" },
 
-
-
-
-
     // ... (continue list até o cupom 500, mantendo a mesma formatação)
   ];
 
@@ -326,6 +322,7 @@ function sortearNumero() {
     <h2>Número: ${sorteado.numero}</h2>
     <p><strong>${sorteado.nome}</strong></p>
     <p>Telefone: ${sorteado.telefone}</p>
+    <a href="Index.html#ganhadores" class="btn-compartilhar">Ver na Página Inicial</a>
   `;
 
   // Salva no Firebase

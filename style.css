@@ -141,3 +141,21 @@ footer a:hover {
   font-weight: bold;
   color: #eee;
 }
+
+.btn-compartilhar {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: #FFD700;
+  color: #000;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn-compartilhar:hover {
+  background: #FFC300;
+  transform: translateY(-2px);
+}
